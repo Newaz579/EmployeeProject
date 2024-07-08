@@ -87,6 +87,11 @@ function searchEmployee() {
         const updateId = parseInt(prompt("Enter the ID of the employee you want to update from the search results:"));
         const newData = {};
 
+        // const updateAttribute = prompt("Enter attribute to update by (id, name, age, gender, birthdate, email, contactNo, emergencyContactNo, bloodGroup, presentAddress, permanentAddress, department):").toLowerCase();
+        // const updateValue = prompt(`Enter value for ${updateAttribute}:`);
+
+        // if(updateAttribute) newData.updateAttribute = updateValue;
+
         const name = prompt("Enter new name (leave blank to keep current name):");
         if (name) newData.name = name;
 
