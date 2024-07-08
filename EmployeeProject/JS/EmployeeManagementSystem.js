@@ -40,6 +40,17 @@ class EmployeeManagementSystem {
         return this.employees.find(emp => emp.id === id);
     }
 
+    //delete employee
+    deleteEmployee(id) {
+        const index = this.employees.findIndex(emp => emp.id === id);
+        if (index !== -1) {
+            const deletedEmployee = this.employees.splice(index, 1)[0];
+            console.log(`Employee ${deletedEmployee.name} (ID: ${id}) deleted.`);
+        } else {
+            console.log(`Employee with ID ${id} not found.`);
+        }
+    }
+
     // Display employees
     displayEmployees() {
         if (this.employees.length === 0) {

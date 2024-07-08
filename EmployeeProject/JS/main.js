@@ -124,6 +124,11 @@ function searchEmployee() {
     }
 }
 
+function deleteEmployee() {
+    const id = parseInt(prompt("Enter employee ID to delete:"));
+    ems.deleteEmployee(id);
+}
+
 function showEmployees() {
     ems.displayEmployees();
 }
