@@ -1,4 +1,4 @@
-// Initialize the Employee Management System
+// Initialize the Employee Management System and create object
 const ems = new EmployeeManagementSystem();
 
 function addEmployee() {
