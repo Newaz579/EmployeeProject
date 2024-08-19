@@ -333,21 +333,41 @@ function displaySearchResults(data) {
 
 
 
-function deleteEmployee() {
-    const id = parseInt(prompt("Enter employee ID to delete:"));
+// function deleteEmployee() {
+//     const id = parseInt(prompt("Enter employee ID to delete:"));
 
-    fetch(`http://localhost:5000/delete-employee/${id}`, {
-        method: 'DELETE'
-    })
-    .then(response => response.text())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-}
+//     fetch(`http://localhost:5000/delete-employee/${id}`, {
+//         method: 'DELETE'
+//     })
+//     .then(response => response.text())
+//     .then(data => console.log(data))
+//     .catch(error => console.error('Error:', error));
+// }
 
 
 // function showEmployees() {
 //     ems.displayEmployees();
 // }
+
+function deleteEmployee() {
+    const id = parseInt(document.getElementById('deleteEmployeeId').value);
+
+    if (isNaN(id) || id <= 0) {
+        alert("Please enter a valid employee ID.");
+        return;
+    }
+
+    fetch(`http://localhost:5000/delete-employee/${id}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log(data);
+        alert(data); // Display the server's response
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 
 function showEmployees() {
     fetch('http://localhost:5000/show-employees')
