@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Management - Search Employee</title>
+    <style>
+        .form-group {
+            margin-bottom: 1em;
+        }
+        .form-group label {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Employee</h1>
+
+    <form id="searchEmployeeForm">
+        <div class="form-group">
+            <label for="attribute">Search By:</label>
+            <select id="attribute" name="attribute" required>
+                <option value="id">ID</option>
+                <option value="name">Name</option>
+                <option value="age">Age</option>
+                <option value="gender">Gender</option>
+                <option value="birthdate">Birthdate</option>
+                <option value="email">Email</option>
+                <option value="contactNo">Contact Number</option>
+                <option value="emergencyContactNo">Emergency Contact Number</option>
+                <option value="bloodGroup">Blood Group</option>
+                <option value="presentAddress">Present Address</option>
+                <option value="permanentAddress">Permanent Address</option>
+                <option value="department">Department</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="value">Enter Value:</label>
+            <input type="text" id="value" name="value" required>
+        </div>
+        <button type="button" onclick="searchEmployee()">Search Employee</button>
+    </form>
+
+    <div id="searchResults"></div>
+
+    <script src="../EmployeeService/EmployeeService.js"></script>
+</body>
+</html>
