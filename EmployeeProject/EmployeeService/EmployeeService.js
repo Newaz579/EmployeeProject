@@ -319,8 +319,8 @@ function searchEmployee() {
 //     ems.displayEmployees();
 // }
 
-function deleteEmployee() {
-    const id = parseInt(document.getElementById('deleteEmployeeId').value);
+function deleteEmployee(id) {
+    // const id = parseInt(document.getElementById('deleteEmployeeId').value);
 
     if (isNaN(id) || id <= 0) {
         alert("Please enter a valid employee ID.");
@@ -392,16 +392,16 @@ function displaySearchResults(data) {
 
             if (header === 'Action') {
                 // Create action buttons
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Edit';
-                editButton.onclick = () => editEmployee(employee.id); // Assign click handler
+                const updateButton = document.createElement('button');
+                updateButton.textContent = 'Update';
+                updateButton.onclick = () => updateEmployee(employee.id); // Assign click handler
                 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
                 deleteButton.onclick = () => deleteEmployee(employee.id); // Assign click handler
                 
                 // Append buttons to the cell
-                td.appendChild(editButton);
+                td.appendChild(updateButton);
                 td.appendChild(deleteButton);
             } else {
                 td.textContent = employee[key];
@@ -419,15 +419,12 @@ function displaySearchResults(data) {
 
 
 // Example action functions
-function editEmployee(id) {
+function updateEmployee(id) {
     console.log(`Edit employee with ID: ${id}`);
     // Add your edit logic here
 }
 
-function deleteEmployee(id) {
-    console.log(`Delete employee with ID: ${id}`);
-    // Add your delete logic here
-}
+
 
 
 
