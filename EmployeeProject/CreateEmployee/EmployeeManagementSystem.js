@@ -7,7 +7,17 @@ class EmployeeManagementSystem {
     // Add a new employee
     addEmployee(employee) {
         this.employees.push(employee);
-        console.log(`Employee ${employee.name} added to ${employee.department} department.`);
+        // console.log(`Employee ${employee.name} added to ${employee.department} department.`);
+        fetch('http://localhost:5000/add-employee', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(employee)
+        })
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
     }
 
     // Search for employees by attribute and value
@@ -33,6 +43,17 @@ class EmployeeManagementSystem {
         } else {
             console.log(`Employee with ID ${id} not found.`);
         }
+
+        // fetch(`http://localhost:5000/update-employee/${id}`, {
+        //     method: 'PUT',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(newData)
+        // })
+        // .then(response => response.text())
+        // .then(data => console.log(data))
+        // .catch(error => console.error('Error:', error));
     }
 
     // Helper method to search employee by ID

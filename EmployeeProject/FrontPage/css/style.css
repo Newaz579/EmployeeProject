@@ -1,0 +1,17 @@
+.anchorDecoration{
+    text-decoration: none;
+}
+
+.searchEmployees{
+    width: 50%;
+    margin: auto;
+}
+.searchEmployees table{
+    text-align: center;
+}
+.searchEmployees table th{
+    border: 1px solid black;
+}
+.searchEmployees table td{
+    border: 1px solid black;
+}

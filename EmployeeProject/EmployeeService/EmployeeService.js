@@ -79,17 +79,17 @@ function addEmployee() {
         permanentAddress,
         department
     };
-
-    fetch('http://localhost:5000/add-employee', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(employee)
-    })
-    .then(response => response.text())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
+    ems.addEmployee(employee);
+    // fetch('http://localhost:5000/add-employee', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(employee)
+    // })
+    // .then(response => response.text())
+    // .then(data => console.log(data))
+    // .catch(error => console.error('Error:', error));
 }
 
 
@@ -171,6 +171,8 @@ function updateEmployee() {
 
     const department = document.getElementById("department").value;
     if (department) newData.department = department;
+
+    // ems.updateEmployee(id, newData);
 
     fetch(`http://localhost:5000/update-employee/${id}`, {
         method: 'PUT',
@@ -265,71 +267,39 @@ function updateEmployee() {
 
 
 function searchEmployee() {
-    const attribute = document.getElementById('attribute').value;
-    const value = document.getElementById('value').value;
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        // Prevent the form from submitting
+        event.preventDefault();
+        const attribute = document.getElementById('attribute').value;
+        const value = document.getElementById('value').value;
 
-    // Send a GET request to the server with the selected attribute and value
-    fetch(`http://localhost:5000/search-employees?attribute=${attribute}&value=${value}`)
-        .then(response => response.json())
-        .then(data => {
-            displaySearchResults(data);
-        })
-        // .then(data => {
-        //     console.log(data);
-        //     if (data.length > 0) {
-        //         console.log('Matching Employees:');
-        //         data.forEach(employee => {
-        //             console.log(employee);
-        //         });
-        //     } else {
-        //         console.log(`No employees found with ${attribute} "${value}".`);
-        //     }
-        // })
+        // Send a GET request to the server with the selected attribute and value
+        fetch(`http://localhost:5000/search-employees?attribute=${attribute}&value=${value}`)
+            .then(response => response.json())
+            .then(data => {
+                displaySearchResults(data);
+            })
+            // .then(data => {
+            //     console.log(data);
+            //     if (data.length > 0) {
+            //         console.log('Matching Employees:');
+            //         data.forEach(employee => {
+            //             console.log(employee);
+            //         });
+            //     } else {
+            //         console.log(`No employees found with ${attribute} "${value}".`);
+            //     }
+            // })
+            
+            .catch(error => console.error('Error:', error));
+    });
+    
+
         
-        .catch(error => console.error('Error:', error));
+
 }
 
-function displaySearchResults(data) {
-    const resultsDiv = document.getElementById('searchResults');
-    resultsDiv.innerHTML = ''; // Clear previous results
 
-    if (!data || data.length === 0) {
-        resultsDiv.innerHTML = '<p>No employees found.</p>';
-        return;
-    }
-
-    // Create a table element
-    const table = document.createElement('table');
-    table.border = '1';
-
-    // Create table headers
-    const headers = ['ID', 'Name', 'Age', 'Gender', 'Birthdate', 'Email', 'Contact No', 'Emergency Contact No', 'Blood Group', 'Present Address', 'Permanent Address', 'Department'];
-    const headerRow = document.createElement('tr');
-
-    headers.forEach(header => {
-        const th = document.createElement('th');
-        th.textContent = header;
-        headerRow.appendChild(th);
-    });
-
-    table.appendChild(headerRow);
-
-    // Populate the table with data
-    data.forEach(employee => {
-        const row = document.createElement('tr');
-
-        headers.forEach(header => {
-            const key = header.replace(/ /g, '').toLowerCase(); // Convert header to lowercase and remove spaces
-            const td = document.createElement('td');
-            td.textContent = employee[key];
-            row.appendChild(td);
-        });
-
-        table.appendChild(row);
-    });
-
-    resultsDiv.appendChild(table);
-}
 
 
 
@@ -370,8 +340,12 @@ function deleteEmployee() {
 
 
 function showEmployees() {
-    fetch('http://localhost:5000/show-employees')
+    console.log('inside the function');
+    fetch('http://localhost:5000')
     .then(response => response.json())
+    .then(data => {
+        displaySearchResults(data);
+    })
     .then(data => {
         if (data.length === 0) {
             console.log("No employees found.");
@@ -386,6 +360,81 @@ function showEmployees() {
 }
 
 
+function displaySearchResults(data) {
+    const resultsDiv = document.getElementById('searchResults');
+    resultsDiv.innerHTML = ''; // Clear previous results
+
+    if (!data || data.length === 0) {
+        resultsDiv.innerHTML = '<p>No employees found.</p>';
+        return;
+    }
+
+    // Create a table element
+    const table = document.createElement('table');
+
+    // Create table headers
+    const headers = ['ID', 'Name', 'Age', 'Gender', 'Birthdate', 'Email', 'Department', 'Action'];
+    const headerRow = document.createElement('tr');
+    headers.forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+
+    table.appendChild(headerRow);
+
+    // Populate the table with data
+    data.forEach(employee => {
+        const row = document.createElement('tr');
+        headers.forEach(header => {
+            const key = header.replace(/ /g, '').toLowerCase(); // Convert header to lowercase and remove spaces
+            const td = document.createElement('td');
+
+            if (header === 'Action') {
+                // Create action buttons
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.onclick = () => editEmployee(employee.id); // Assign click handler
+                
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = () => deleteEmployee(employee.id); // Assign click handler
+                
+                // Append buttons to the cell
+                td.appendChild(editButton);
+                td.appendChild(deleteButton);
+            } else {
+                td.textContent = employee[key];
+            }
+
+            // td.textContent = employee[key];
+            row.appendChild(td);
+        });
+
+        table.appendChild(row);
+    });
+    
+    resultsDiv.appendChild(table);
+}
+
+
+// Example action functions
+function editEmployee(id) {
+    console.log(`Edit employee with ID: ${id}`);
+    // Add your edit logic here
+}
+
+function deleteEmployee(id) {
+    console.log(`Delete employee with ID: ${id}`);
+    // Add your delete logic here
+}
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    showEmployees();
+});
 
 
 
@@ -395,8 +444,7 @@ function showEmployees() {
 
 
 
-
-
+// 'Contact No', 'Emergency Contact No', 'Blood Group', 'Present Address', 'Permanent Address',
 
 
 
