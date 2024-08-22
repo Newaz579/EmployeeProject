@@ -133,10 +133,16 @@ function addEmployee() {
 //     ems.updateEmployee(id, newData);
 // }
 
-function updateEmployee() {
-    
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
 
-    const id = parseInt(document.getElementById("id").value);
+function updateEmployee(){
+
+    const id = getQueryParam('id');
+    console.log(id);
+
     const newData = {};
 
     const name = document.getElementById("name").value;
@@ -171,8 +177,6 @@ function updateEmployee() {
 
     const department = document.getElementById("department").value;
     if (department) newData.department = department;
-
-    // ems.updateEmployee(id, newData);
 
     fetch(`http://localhost:5000/update-employee/${id}`, {
         method: 'PUT',
@@ -340,22 +344,21 @@ function deleteEmployee(id) {
 
 
 function showEmployees() {
-    console.log('inside the function');
     fetch('http://localhost:5000')
     .then(response => response.json())
     .then(data => {
         displaySearchResults(data);
     })
-    .then(data => {
-        if (data.length === 0) {
-            console.log("No employees found.");
-        } else {
-            console.log("Employee List:");
-            data.forEach(employee => {
-                console.log(employee);
-            });
-        }
-    })
+    // .then(data => {
+    //     if (data.length === 0) {
+    //         console.log("No employees found.");
+    //     } else {
+    //         console.log("Employee List:");
+    //         data.forEach(employee => {
+    //             console.log(employee);
+    //         });
+    //     }
+    // })
     .catch(error => console.error('Error:', error));
 }
 
@@ -394,7 +397,7 @@ function displaySearchResults(data) {
                 // Create action buttons
                 const updateButton = document.createElement('button');
                 updateButton.textContent = 'Update';
-                updateButton.onclick = () => updateEmployee(employee.id); // Assign click handler
+                updateButton.onclick = () => updatedEmployee(employee); // Assign click handler
                 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
@@ -419,9 +422,58 @@ function displaySearchResults(data) {
 
 
 // Example action functions
-function updateEmployee(id) {
-    console.log(`Edit employee with ID: ${id}`);
-    // Add your edit logic here
+function updatedEmployee(employee) {
+    window.location.href = `../FrontPage/updateEmployee.html?id=${employee.id}`;
+
+
+
+    // const newData = {};
+
+    // const name = document.getElementById("name").value;
+    // if (name) newData.name = name;
+
+    // const age = document.getElementById("age").value;
+    // if (age) newData.age = parseInt(age);
+
+    // const gender = document.getElementById("gender").value;
+    // if (gender) newData.gender = gender;
+
+    // const birthdate = document.getElementById("birthdate").value;
+    // if (birthdate) newData.birthdate = birthdate;
+
+    // const email = document.getElementById("email").value;
+    // if (email) newData.email = email;
+
+    // const contactNo = document.getElementById("contactNo").value;
+    // if (contactNo) newData.contactNo = contactNo;
+
+    // const emergencyContactNo = document.getElementById("emergencyContactNo").value;
+    // if (emergencyContactNo) newData.emergencyContactNo = emergencyContactNo;
+
+    // const bloodGroup = document.getElementById("bloodGroup").value;
+    // if (bloodGroup) newData.bloodGroup = bloodGroup;
+
+    // const presentAddress = document.getElementById("presentAddress").value;
+    // if (presentAddress) newData.presentAddress = presentAddress;
+
+    // const permanentAddress = document.getElementById("permanentAddress").value;
+    // if (permanentAddress) newData.permanentAddress = permanentAddress;
+
+    // const department = document.getElementById("department").value;
+    // if (department) newData.department = department;
+
+    // ems.updateEmployee(id, newData);
+
+    // fetch(`http://localhost:5000/update-employee/${id}`, {
+    //     method: 'PUT',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(newData)
+    // })
+    // .then(response => response.text())
+    // .then(data => console.log(data))
+    // .catch(error => console.error('Error:', error));
 }
 
 
